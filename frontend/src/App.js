@@ -7,7 +7,7 @@ import {IoMdAddCircle} from 'react-icons/io'
 
 
 import { Navbar, Footer, Sidebar, ThemeSettings } from './Components';
-import { Dashboard, Orders, Calendar, Employees, Stacked, Pyramid, Customers, Kanban, Line, Area, Bar, Pie, Financial, ColorPicker, ColorMapping, Editor } from './Pages';
+import { Dashboard, Orders, Calendar, Completed_Assign, Stacked, Pyramid, Customers, Kanban, Line, Area, Bar, Pie, Financial, ColorPicker, ColorMapping, Editor } from './Pages';
 import './App.css';
 
 import { useStateContext } from './Contexts/ContextProvider';
@@ -78,7 +78,7 @@ const App = () => {
 
                 {/* pages  */}
                 <Route path="/pending-assignments" element={<Orders />} />
-                <Route path="/completed-assignments" element={<Employees />} />
+                <Route path="/completed-assignments" element={<Completed_Assign />} />
                 <Route path="/pending-revisions" element={<Customers />} />
                 <Route path="/completed-revisions" element={<Customers />} />
 
