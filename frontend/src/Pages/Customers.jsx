@@ -3,16 +3,14 @@ import { GridComponent, ColumnsDirective, ColumnDirective, Page, Selection, Inje
 
 import {customersData, customersGrid} from '../Data/dummy';
 import {Header} from '../Components';
-
+import { useStateContext } from '../Contexts/ContextProvider';
 const Customers = () => {
-  const handleChange=()=>{
-    alert("He")
-  }
+  const {assignMentTitle,pendingRevision,revisionTitle}=useStateContext()
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
-      <Header category="Page" title="Customers" />
+      <Header category="Page" title="Completed Revisions" />
       <GridComponent
-        dataSource={customersData}
+        dataSource={pendingRevision}
         allowPaging
         allowSorting
         toolbar={['Delete']}
@@ -21,7 +19,7 @@ const Customers = () => {
         actionBegin={(e)=>console.log(e)}
       >
         <ColumnsDirective>
-          {customersGrid.map((item, index) => <ColumnDirective key={index} {...item} />)}
+          {revisionTitle.map((item, index) => <ColumnDirective key={index} {...item} />)}
         </ColumnsDirective>
         <Inject services={[Page,Toolbar, Selection, Edit, Sort, Filter]} />
       </GridComponent>

@@ -16,7 +16,7 @@ const DropDown = ({ currentMode }) => (
 );
 
 const Dashboard = () => {
-  const { currentColor, currentMode } = useStateContext();
+  const { currentColor, currentMode,pendingAssignments } = useStateContext();
 
   return (
     <div className="mt-24 ml-10">
@@ -26,23 +26,16 @@ const Dashboard = () => {
             <p className="text-xl font-semibold">Upcoming Assignments</p>
             <DropDown currentMode={currentMode} />
           </div>
+          
           <div className="mt-10 w-72 md:w-400">
-            {recentTransactions.map((item) => (
-              <div key={item.title} className="flex justify-between mt-4">
+            {pendingAssignments.map((item) => (
+              <div key={item._id} className="flex justify-between mt-4">
                 <div className="flex gap-4">
-                  {/* <button
-                    type="button"
-                    style={{
-                      color: item.iconColor,
-                      backgroundColor: item.iconBg,
-                    }}
-                    className="text-2xl rounded-lg p-4 hover:drop-shadow-xl"
-                  >
-                    {item.icon}
-                  </button> */}
                   <div>
-                    <p className="text-md font-semibold">{item.title}</p>
-                    <p className="text-sm text-gray-400">{item.desc}</p>
+                    <p className="text-md font-semibold">{item.subject}</p>
+                    <p className="text-sm text-gray-400">{item.assignmentTitle}</p>
+                  
+                    <p className="text-sm text-red-600">{item.submissionDate.split('T')[0]}</p>
                   </div>
                 </div>
                 {/* <p className={`text-${item.pcColor}`}>{item.amount}</p> */}
@@ -50,14 +43,7 @@ const Dashboard = () => {
             ))}
           </div>
           <div className="flex justify-between items-center mt-5 border-t-1 border-color">
-            <div className="mt-3">
-              <Button
-                color="white"
-                bgColor={currentColor}
-                text="Add"
-                borderRadius="10px"
-              />
-            </div>
+           
 
           </div>
         </div>
@@ -90,14 +76,7 @@ const Dashboard = () => {
             ))}
           </div>
           <div className="flex justify-between items-center mt-5 border-t-1 border-color">
-            <div className="mt-3">
-              <Button
-                color="white"
-                bgColor={currentColor}
-                text="Add"
-                borderRadius="10px"
-              />
-            </div>
+           
 
           </div>
         </div>

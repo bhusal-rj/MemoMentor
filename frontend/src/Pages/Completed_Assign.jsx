@@ -4,12 +4,12 @@ import {employeesData, employeesGrid } from '../Data/dummy';
 import {Header} from '../Components'
 import { useStateContext } from '../Contexts/ContextProvider';
 const Completed_Assign = () => {
-  const {assignMentTitle}=useStateContext()
+  const {assignMentTitle,assignments}=useStateContext()
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       <Header category="Page" title="Completed Assignments" />
       <GridComponent
-        dataSource={employeesData}
+        dataSource={assignments}
         allowPaging
         allowSorting
         toolbar={['Search']}
