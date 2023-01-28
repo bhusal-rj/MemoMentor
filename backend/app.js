@@ -47,6 +47,14 @@ const port = process.env.PORT || 3000;
 const start = async () => {
 	try {
 		await connectDB(process.env.MONGO_URI);
+		setInterval(async () => {
+			const Assignment = require('./models/Revision')
+			const revisions = await Assignment.find({})
+			for (const revision of revisions) {
+				revision.currentCount += 1
+				await Assignment.findByIdAndUpdate({ _id: revision._id }, revision, { new: true, runValidators: true })
+			}
+		}, 24 * 60 * 60 * 1000)
 		app.listen(port, () =>
 			console.log(`Server is listening on port ${port}...`)
 		);

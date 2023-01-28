@@ -8,7 +8,7 @@ const RevisionSchema = new mongoose.Schema({
 	revisionTitle: {
 		type: String,
 		maxlength: 200,
-		required:true
+		required: true
 	},
 	createdAt: {
 		type: Date,
@@ -17,15 +17,14 @@ const RevisionSchema = new mongoose.Schema({
 	currentCount: {
 		type: Number,
 		default: 0,
-
 	},
-	completed: {
-		type: [Boolean],
-		default: [false, false, false, false, false],
+	actualCount: {
+		type: Number,
+		default: 0,
 	},
-	repetitionNumber: {
-		type: [Number],
-		default: [1, 3, 6, 18, 30]
+	nextRevision: {
+		type: Number,
+		default: 1,
 	},
 	createdBy: {
 		type: mongoose.Types.ObjectId,
