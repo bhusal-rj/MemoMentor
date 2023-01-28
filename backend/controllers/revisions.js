@@ -27,7 +27,7 @@ const getTodayRevisions = async (req, res) => {
 const getUpcomingRevisions = async (req, res) => {
 	console.log("Call to get upcoming revision")
 	const revisions = await Revision.find({ createdBy: req.user.userID }).sort('createdAt')
-	const upcomingRevisions = revisions.filter((revision) => revision.nextRevision != -1 && revision.actualCount == revision.nextRevision)
+	const upcomingRevisions = revisions.filter((revision) => revision.nextRevision != -1 && revision.actualCount != revision.nextRevision)
 	upcomingRevisions.sort((a, b) => (a.nextRevision - a.actualCount) - (b.nextRevision - b.actualCount))
 	res.status(StatusCodes.OK).json({ count: upcomingRevisions.length, upcomingRevisions })
 
