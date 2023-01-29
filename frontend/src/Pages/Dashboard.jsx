@@ -3,11 +3,12 @@ import { BsCurrencyDollar } from 'react-icons/bs';
 import { GoPrimitiveDot } from 'react-icons/go';
 import { IoIosMore } from 'react-icons/io';
 import { DropDownListComponent } from '@syncfusion/ej2-react-dropdowns';
-
+import { useNavigate} from 'react-router-dom';
 import { Stacked, Pie, Button, LineChart, SparkLine } from '../Components';
 import { earningData, medicalproBranding, recentTransactions, weeklyStats, dropdownData, SparklineAreaData, ecomPieChartData } from '../Data/dummy';
 import { useStateContext } from '../Contexts/ContextProvider';
 import product9 from '../Data/product9.jpg';
+import { patchRevision } from '../Contexts/methods/postRoutes';
 
 const DropDown = ({ currentMode }) => (
   <div className="w-28 border-1 border-color px-2 py-1 rounded-md">
@@ -15,9 +16,17 @@ const DropDown = ({ currentMode }) => (
   </div>
 );
 
-const Dashboard = () => {
-  const { currentColor, currentMode,pendingAssignments } = useStateContext();
 
+
+const Dashboard = () => {
+  const { currentColor, currentMode,pendingAssignments,patchRevision,todayRevision,patchData,upcomingRevision,missedAssignment } = useStateContext();
+  const naviagate=useNavigate();
+  console.log("Today Revisio",todayRevision)
+  const patchRev=(id)=>{
+    patchRevision(id);
+    // window.location.replace("/")
+  
+  }
   return (
     <div className="mt-24 ml-10">
       <div className='grid grid-cols-2'>
@@ -28,13 +37,12 @@ const Dashboard = () => {
           </div>
           
           <div className="mt-10 w-72 md:w-400">
-            {pendingAssignments.map((item) => (
+            {pendingAssignments?.map((item) => (
               <div key={item._id} className="flex justify-between mt-4">
                 <div className="flex gap-4">
                   <div>
                     <p className="text-md font-semibold">{item.subject}</p>
                     <p className="text-sm text-gray-400">{item.assignmentTitle}</p>
-                  
                     <p className="text-sm text-red-600">{item.submissionDate.split('T')[0]}</p>
                   </div>
                 </div>
@@ -53,22 +61,14 @@ const Dashboard = () => {
             <DropDown currentMode={currentMode} />
           </div>
           <div className="mt-10 w-72 md:w-400">
-            {recentTransactions.map((item) => (
+            {todayRevision.map((item) => (
               <div key={item.title} className="flex justify-between mt-4">
                 <div className="flex gap-4">
-                  {/* <button
-                    type="button"
-                    style={{
-                      color: item.iconColor,
-                      backgroundColor: item.iconBg,
-                    }}
-                    className="text-2xl rounded-lg p-4 hover:drop-shadow-xl"
-                  >
-                    {item.icon}
-                  </button> */}
+                 <input type="checkbox" onClick={()=>patchRev(item._id)}/>
                   <div>
-                    <p className="text-md font-semibold">{item.title}</p>
-                    <p className="text-sm text-gray-400">{item.desc}</p>
+                    <p className="text-md font-semibold">{item.subject}</p>
+                    <p className="text-sm text-gray-400">{item.revisionTitle}</p>
+                    <p className="text-sm text-gray-400">{item.nextRevision}th Revision</p>
                   </div>
                 </div>
                 {/* <p className={`text-${item.pcColor}`}>{item.amount}</p> */}
@@ -148,10 +148,10 @@ const Dashboard = () => {
             
           </div>
           <div className="mt-10 w-72 md:w-400">
-            {recentTransactions.map((item) => (
+            {upcomingRevision.map((item) => (
               <div key={item.title} className="flex justify-between mt-4">
                 <div className="flex gap-4">
-                  <button
+                  {/* <button
                     type="button"
                     style={{
                       color: item.iconColor,
@@ -160,10 +160,10 @@ const Dashboard = () => {
                     className="text-2xl rounded-lg p-4 hover:drop-shadow-xl"
                   >
                     {item.icon}
-                  </button>
+                  </button> */}
                   <div>
-                    <p className="text-md font-semibold">{item.title}</p>
-                    <p className="text-sm text-gray-400">{item.desc}</p>
+                    <p className="text-md font-semibold">{item.subject}</p>
+                    <p className="text-sm text-gray-400">{item.revisionTitle}</p>
                   </div>
                 </div>
                 <p className={`text-${item.pcColor}`}>{item.amount}</p>
@@ -195,11 +195,12 @@ const Dashboard = () => {
       <div className="flex gap-10 m-4 flex-wrap justify-center">
         <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg p-6 rounded-2xl">
           <div className="flex justify-between items-center gap-2">
-            <p className="text-xl font-semibold text-red-500">Missed Revisions</p>
+            <p className="text-xl font-semibold text-red-500">Missed Assignment</p>
             
           </div>
           <div className="mt-10 w-72 md:w-400">
-            {recentTransactions.map((item) => (
+            {missedAssignment & 1 ? <>
+              {recentTransactions.map((item) => (
               <div key={item.title} className="flex justify-between mt-4">
                 <div className="flex gap-4">
                   <button
@@ -220,6 +221,11 @@ const Dashboard = () => {
                 <p className={`text-${item.pcColor}`}>{item.amount}</p>
               </div>
             ))}
+            
+            </> : <>
+            <p className="text-md font-semibold">Hurrah, You have submitted all the assignments</p>
+            </>}
+            
           </div>
           
         </div>
@@ -237,40 +243,7 @@ const Dashboard = () => {
       
 
       <div className="flex flex-wrap justify-center">
-        <div className="md:w-400 bg-white dark:text-gray-200 dark:bg-secondary-dark-bg rounded-2xl p-6 m-3">
-          <div className="flex justify-between">
-            <p className="text-xl font-semibold">Weekly Stats</p>
-            <button type="button" className="text-xl font-semibold text-gray-500">
-              <IoIosMore />
-            </button>
-          </div>
-
-          <div className="mt-10 ">
-            {weeklyStats.map((item) => (
-              <div key={item.title} className="flex justify-between mt-4 w-full">
-                <div className="flex gap-4">
-                  {/* <button
-                    type="button"
-                    style={{ background: item.iconBg }}
-                    className="text-2xl hover:drop-shadow-xl text-white rounded-full p-3"
-                  >
-                    {item.icon}
-                  </button> */}
-                  <div>
-                    <p className="text-md font-semibold">{item.title}</p>
-                    <p className="text-sm text-gray-400">{item.desc}</p>
-                  </div>
-                </div>
-
-                <p className={`text-${item.pcColor}`}>{item.amount}</p>
-              </div>
-            ))}
-            <div className="mt-4">
-              <SparkLine currentColor={currentColor} id="area-sparkLine" height="160px" type="Area" data={SparklineAreaData} width="320" color="rgb(242, 252, 253)" />
-            </div>
-          </div>
-
-        </div>
+       
         {/* <div className="w-400 bg-white dark:text-gray-200 dark:bg-secondary-dark-bg rounded-2xl p-6 m-3">
           <div className="flex justify-between">
             <p className="text-xl font-semibold">MedicalPro Branding</p>

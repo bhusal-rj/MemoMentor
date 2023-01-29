@@ -1,4 +1,4 @@
-const host_url="http://10.100.56.89:5000"
+const host_url="http://192.168.112.146:5000"
 const urls={
     assignments:`${host_url}/api/v1/assignments`,
     postAssignment:`${host_url}/api/v1/assignments`,
@@ -9,6 +9,7 @@ const urls={
     pendingAssignment:`${host_url}/api/v1/assignments/pending`,
     completedAssignment:`${host_url}/api/v1/assignments/completed`,
     completedRevisions:`${host_url}/api/v1/revisions/completed`,
-    
+    patchRevisions:`${host_url}/api/v1/revisions/update/`,
+    patchAssinments:`${host_url}/api/v1/assignments/update`
 }
 export default urls

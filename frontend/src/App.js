@@ -4,8 +4,9 @@ import { FiSettings } from 'react-icons/fi';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 import { GrAdd } from 'react-icons/gr';
 import {IoMdAddCircle} from 'react-icons/io'
-
-
+import PendingRevision from './Pages/pendingRevisions';
+import Login from './Auth/Login';
+import Signup from './Auth/Signup';
 import { Navbar, Footer, Sidebar, ThemeSettings } from './Components';
 import { Dashboard, Orders, Calendar, Completed_Assign, Stacked, Pyramid, Customers, Kanban, Line, Area, Bar, Pie, Financial, ColorPicker, ColorMapping, Editor } from './Pages';
 import './App.css';
@@ -73,13 +74,15 @@ const App = () => {
 
               <Routes>
                 {/* dashboard  */}
+                
                 <Route path="/" element={(<Dashboard />)} />
                 <Route path="/dashboard" element={(<Dashboard />)} />
-
+                <Route path="/signup" element={(<Signup />)} />
                 {/* pages  */}
+                
                 <Route path="/pending-assignments" element={<Orders />} />
                 <Route path="/completed-assignments" element={<Completed_Assign />} />
-                <Route path="/pending-revisions" element={<Customers />} />
+                <Route path="/pending-revisions" element={<PendingRevision />} />
                 <Route path="/completed-revisions" element={<Customers />} />
 
                 {/* apps  */}

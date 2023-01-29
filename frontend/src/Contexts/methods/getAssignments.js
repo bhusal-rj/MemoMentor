@@ -1,11 +1,14 @@
 import axios from 'axios'
 import uris from './uris'
+
+const token=localStorage.getItem('token')
 async function getAssignments(){
+    const token=localStorage.getItem('token')
     try{
         
         const {data}=await axios.get(uris.assignments,
             {headers:{
-                Authorization:`Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2M2Q1NWNhNzFjMTlkZDExYzMzYWJjNTYiLCJuYW1lIjoiUmFqZXNoIiwiaWF0IjoxNjc0OTI3MjcxLCJleHAiOjE2Nzc1MTkyNzF9.4V3Q9kG0N_OgDedSo2SIs4VZpoUKDSiem3q4ABaWvVM`
+                Authorization:`Bearer ${token}`
             }})
         return(data.assignments)
     }catch(err){
@@ -14,12 +17,15 @@ async function getAssignments(){
 }
 
 async function getCompletedAssignment(){
+    
     try{
+        const token=localStorage.getItem('token')
         const {data}=await axios.get(uris.completedAssignment,
             {headers:{
-                Authorization:`Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2M2Q1NWNhNzFjMTlkZDExYzMzYWJjNTYiLCJuYW1lIjoiUmFqZXNoIiwiaWF0IjoxNjc0OTI3MjcxLCJleHAiOjE2Nzc1MTkyNzF9.4V3Q9kG0N_OgDedSo2SIs4VZpoUKDSiem3q4ABaWvVM`
+                Authorization:`Bearer ${token}`
             }})
-        return(data.assignments)
+            
+        return(data.completedAssignments)
     }catch(err){
 
     }
@@ -27,10 +33,12 @@ async function getCompletedAssignment(){
 
 async function getCompletedRevison(){
     try{
+        const token=localStorage.getItem('token')
         const {data}=await axios.get(uris.completedRevisions,
             {headers:{
-                Authorization:`Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2M2Q1NWNhNzFjMTlkZDExYzMzYWJjNTYiLCJuYW1lIjoiUmFqZXNoIiwiaWF0IjoxNjc0OTI3MjcxLCJleHAiOjE2Nzc1MTkyNzF9.4V3Q9kG0N_OgDedSo2SIs4VZpoUKDSiem3q4ABaWvVM`
+                Authorization:`Bearer ${token}`
             }})
+            console.log("Rev data",data)
         return(data.completedRevisions)
     }catch(err){
 
@@ -39,9 +47,10 @@ async function getCompletedRevison(){
 
 async function getPendingAssignment(){
     try{
+        const token=localStorage.getItem('token')
         const {data}=await axios.get(uris.pendingAssignment,
             {headers:{
-                Authorization:`Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2M2Q1NWNhNzFjMTlkZDExYzMzYWJjNTYiLCJuYW1lIjoiUmFqZXNoIiwiaWF0IjoxNjc0OTI3MjcxLCJleHAiOjE2Nzc1MTkyNzF9.4V3Q9kG0N_OgDedSo2SIs4VZpoUKDSiem3q4ABaWvVM`
+                Authorization:`Bearer ${token}`
             }})
             
         return(data.pendingAssignments)
@@ -52,12 +61,13 @@ async function getPendingAssignment(){
 
 async function getTodayRevision(){
     try{
+        const token=localStorage.getItem('token')
         
         const {data}=await axios.get(uris.todayRevison,
             {headers:{
-                Authorization:`Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2M2Q1NWNhNzFjMTlkZDExYzMzYWJjNTYiLCJuYW1lIjoiUmFqZXNoIiwiaWF0IjoxNjc0OTI3MjcxLCJleHAiOjE2Nzc1MTkyNzF9.4V3Q9kG0N_OgDedSo2SIs4VZpoUKDSiem3q4ABaWvVM`
+                Authorization:`Bearer ${token}`
             }})
-            
+           
         return(data.todayRevisions)
     }catch(err){
 
@@ -66,10 +76,11 @@ async function getTodayRevision(){
 
 async function getUpcomingRevison(){
     try{
+        const token=localStorage.getItem('token')
         
         const {data}=await axios.get(uris.upcomingRevision,
             {headers:{
-                Authorization:`Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2M2Q1NWNhNzFjMTlkZDExYzMzYWJjNTYiLCJuYW1lIjoiUmFqZXNoIiwiaWF0IjoxNjc0OTI3MjcxLCJleHAiOjE2Nzc1MTkyNzF9.4V3Q9kG0N_OgDedSo2SIs4VZpoUKDSiem3q4ABaWvVM`
+                Authorization:`Bearer ${token}`
             }})
             
         return(data.upcomingRevisions)
@@ -80,10 +91,11 @@ async function getUpcomingRevison(){
 
 async function getMissedAssignment(){
     try{
+        const token=localStorage.getItem('token')
         
         const {data}=await axios.get(uris.missedAssignment,
             {headers:{
-                Authorization:`Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2M2Q1NWNhNzFjMTlkZDExYzMzYWJjNTYiLCJuYW1lIjoiUmFqZXNoIiwiaWF0IjoxNjc0OTI3MjcxLCJleHAiOjE2Nzc1MTkyNzF9.4V3Q9kG0N_OgDedSo2SIs4VZpoUKDSiem3q4ABaWvVM`
+                Authorization:`Bearer ${token}`
             }})
         return(data.missedAssinment)
     }catch(err){

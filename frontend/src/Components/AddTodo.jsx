@@ -24,7 +24,7 @@ const style = {
 
 
 function AddTodo() {
-
+  const { setShowAddMenu, currentColor, showAddMenu, postAssignment, assignments, setAssignments ,postRevision,setPendingAssignments,setPendingRevision,pendingRevision} = useStateContext();
   const [assignmentData, setAssignmentData] = useState({
     assignmentTitle: '',
     subject: "",
@@ -40,19 +40,19 @@ function AddTodo() {
   const onAssignmentSubmit = (e) => {
     // console.log(assignmentData)
     const newAssignment = [...assignments, assignmentData]
-    setAssignments(newAssignment)
+    setPendingAssignments(newAssignment)
     setShowAddMenu(false)
-    postRoute(uris.postAssignment, assignmentData)
+    postAssignment(uris.postAssignment, assignmentData)
 
 
   }
   const handleDataChange = (e) => {
     const { name, value } = e.target
-    console.log(name, value)
     setAssignmentData({ ...assignmentData, [name]: value })
   }
 
   const onRevisionSubmit=()=>{
+    setPendingRevision([...pendingRevision,revisionData])
     postRevision(uris.revisions,revisionData)
     setShowAddMenu(false)
   }
@@ -63,7 +63,7 @@ function AddTodo() {
   }
 
 
-  const { setShowAddMenu, currentColor, showAddMenu, postRoute, assignments, setAssignments ,postRevision} = useStateContext();
+ 
   const [showAssignment,setShowAssignment]=useState(0);
   const [showRevision,setShowRevision]=useState(0);
   return (<>

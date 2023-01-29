@@ -5,12 +5,12 @@ import {customersData, customersGrid} from '../Data/dummy';
 import {Header} from '../Components';
 import { useStateContext } from '../Contexts/ContextProvider';
 const Customers = () => {
-  const {assignMentTitle,pendingRevision,revisionTitle}=useStateContext()
+  const {assignMentTitle,endingRevision,revisionTitle,completedRevisions}=useStateContext()
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       <Header category="Page" title="Completed Revisions" />
       <GridComponent
-        dataSource={pendingRevision}
+        dataSource={completedRevisions}
         allowPaging
         allowSorting
         toolbar={['Delete']}
@@ -18,6 +18,7 @@ const Customers = () => {
         width= 'auto'
         actionBegin={(e)=>console.log(e)}
       >
+        
         <ColumnsDirective>
           {revisionTitle.map((item, index) => <ColumnDirective key={index} {...item} />)}
         </ColumnsDirective>

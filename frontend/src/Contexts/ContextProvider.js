@@ -1,7 +1,7 @@
 import { textAlign } from '@mui/system';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import * as getAll from './methods/getAssignments'
-import {postAssignment,postRevision} from './methods/postRoutes';
+import {postAssignment,postRevision,patchData,patchRevision} from './methods/postRoutes';
 
 const StateContext = createContext();
 
@@ -10,8 +10,15 @@ const initialState = {
   cart: false,
   userProfile: false,
   notification: false,
+  isloggedIn:false
 };
 
+const checkInLocalStorage=()=>{
+  const token=localStorage.getItem('token');
+  if(token){
+    initialState.isloggedIn=true;
+  }
+}
 const revisionTitle=[
   {
     type:'checkbox', width:'50'
@@ -89,7 +96,8 @@ export const ContextProvider = ({ children }) => {
   const [todayRevision,setTodayRevision]=useState([])
   const [missedAssignment,setMissedAssignment]=useState([])
   const [completedRevisions,setCompletedRevisions]=useState([])
-
+  const [completedAssignment,setCompletedAssignment]=useState([])
+  const [upcomingRevision,setUpcomingRevision]=useState([])
 
   const setMode = (e) => {
     setCurrentMode(e.target.value);
@@ -100,12 +108,11 @@ export const ContextProvider = ({ children }) => {
     setCurrentColor(color);
     localStorage.setItem('colorMode', color);
   };
-
   const handleClick = (clicked) => setIsClicked({ ...initialState, [clicked]: true });
 
   useEffect(() => {
     const getData = async () => {
-
+      
       const assignment = await getAll.getAssignments()
       setAssignments(assignment)
       let pendingAssignment=await getAll.getPendingAssignment()
@@ -113,22 +120,30 @@ export const ContextProvider = ({ children }) => {
 
       let revisionToday=await getAll.getTodayRevision()
       setTodayRevision(revisionToday);
-      console.log("Today",revisionToday)
+      
       let upcomingRevisions=await getAll.getUpcomingRevison();
-      
       setPendingRevision(upcomingRevisions)
-
-     
-      setCompletedRevisions(await getAll.getCompletedRevison());
-      setMissedAssignment(await getAll.getMissedAssignment());
       
+     let revisionsCompleted=await getAll.getCompletedRevison()
+      setCompletedRevisions(revisionsCompleted);
+      console.log("completed",completedRevisions)
+      let assignmentMissed=getAll.getMissedAssignment()
+      setMissedAssignment(assignmentMissed)
+      
+      let completedAssignmets=await getAll.getCompletedAssignment();
+      setCompletedAssignment(completedAssignmets);
+      let revisionPending=await getAll.getUpcomingRevison()
+      setPendingRevision(revisionPending);
+      let revisionUpcoming=await getAll.getUpcomingRevison()
+      setUpcomingRevision(revisionUpcoming)
     }
-    getData()
+  getData()
+    
   }, [])
 
   return (
     // eslint-disable-next-line react/jsx-no-constructed-context-values
-    <StateContext.Provider value={{ currentColor, currentMode, activeMenu, screenSize, setScreenSize, handleClick, isClicked, initialState, setIsClicked, setActiveMenu, setCurrentColor, setCurrentMode, setMode, setColor, themeSettings, setThemeSettings, showAddMenu, setShowAddMenu, assignments, postAssignment,postRevision, assignMentTitle, setAssignments,pendingAssignments,todayRevision,pendingRevision,revisionTitle }}>
+    <StateContext.Provider value={{ currentColor, currentMode, activeMenu, screenSize, setScreenSize, handleClick, isClicked, initialState, setIsClicked, setActiveMenu, setCurrentColor, setCurrentMode,patchRevision, setMode, setColor, themeSettings, setThemeSettings, showAddMenu, setShowAddMenu, assignments, postAssignment,postRevision, assignMentTitle, setAssignments,pendingAssignments,todayRevision,pendingRevision,completedAssignment,setPendingRevision,revisionTitle,setCompletedAssignment,patchData ,setPendingAssignments,pendingRevision,setPendingRevision,completedRevisions,setCompletedRevisions,todayRevision,missedAssignment,upcomingRevision}}>
       {children}
     </StateContext.Provider>
   );
